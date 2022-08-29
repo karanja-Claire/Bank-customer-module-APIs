@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from myapi.models import Bank
+from myapi.models import Bank, Bank_account, Bank_branch
 
 
 class BankSerializer(serializers.ModelSerializer):
@@ -12,3 +12,30 @@ class BankSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bank
         fields = [ 'bank_name','id','created_at','updated_at']
+
+
+
+class BranchSerializer(serializers.ModelSerializer):
+    bank = BankSerializer(read_only = True)
+    branch_name =serializers.CharField(max_length=50)
+    id = serializers.UUIDField(read_only=True)
+    created_at = serializers.CharField(read_only = True)
+    updated_at = serializers.CharField(read_only = True)
+
+    class Meta:
+        model = Bank_branch
+        fields = [ 'branch_name','id','bank','created_at','updated_at']
+
+class BankAccountSerializer(serializers.ModelSerializer):
+    bank = BankSerializer(read_only = True)
+    account_name = serializers.CharField(max_length=50)
+    account_number= serializers.CharField(max_length=50)
+    id = serializers.UUIDField(read_only=True)
+    created_at = serializers.CharField(read_only = True)
+    updated_at = serializers.CharField(read_only = True)
+
+    class Meta:
+        model = Bank_account
+        fields = [ 'account_name','account_number','id','bank','created_at','updated_at']
+
+
