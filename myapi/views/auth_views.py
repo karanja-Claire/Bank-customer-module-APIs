@@ -1,6 +1,6 @@
 from rest_framework import generics,status
 from rest_framework import serializers
-from myapi.models import MyUser
+from myapi.models.auth_models import MyUser
 from myapi.serializers.auth_serializer import LoginResponseSerializer, LoginSerializer, RegisterUserSerializer
 from rest_framework.response import Response
 from django.contrib import auth

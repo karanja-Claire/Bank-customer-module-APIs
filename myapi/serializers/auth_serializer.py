@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from myapi.models import MyUser
+from myapi.models.auth_models import MyUser
 
 class UserResponseSerializer(serializers.ModelSerializer):
   

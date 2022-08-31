@@ -1,7 +1,7 @@
 
 from sre_constants import BRANCH
 from rest_framework import serializers
-from myapi.models import Bank, Bank_account, Bank_branch
+from myapi.models.bank_models import Bank, Bank_account, Bank_branch
 
 
 class BankSerializer(serializers.ModelSerializer):

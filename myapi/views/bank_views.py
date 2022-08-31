@@ -1,6 +1,6 @@
 
 from myapi.serializers.bank_serializer import BankAccountReadOnlySerializer, BankAccountSerializer, BankSerializer, BranchSerializer, BranchSerializerReadonly
-from ..models import Bank, Bank_account, Bank_branch
+from ..models.bank_models import Bank, Bank_account, Bank_branch
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
