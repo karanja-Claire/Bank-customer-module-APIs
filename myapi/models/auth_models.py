@@ -35,6 +35,7 @@ class UserManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id_passport_number = models.CharField(max_length=255,unique = True, null=False)
     username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     phone = models.CharField(max_length=13, null=True, unique=True,blank=False)
