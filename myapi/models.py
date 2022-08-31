@@ -61,7 +61,7 @@ class Bank(models.Model):
 
 class Bank_branch(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    bank_name = models.ForeignKey(Bank,
+    bank = models.ForeignKey(Bank,
                                   on_delete=models.DO_NOTHING,
                                   null=True)
     branch_name = models.CharField(max_length=256)

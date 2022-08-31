@@ -1,5 +1,5 @@
 
-from myapi.serializers.bank_serializer import BankAccountSerializer, BankSerializer, BranchSerializer
+from myapi.serializers.bank_serializer import BankAccountReadOnlySerializer, BankAccountSerializer, BankSerializer, BranchSerializer, BranchSerializerReadonly
 from ..models import Bank, Bank_account, Bank_branch
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
@@ -14,8 +14,8 @@ class Banks(generics.ListCreateAPIView):
     
     
     def get_queryset(self):
-        
-        return self.queryset
+        queryset = Bank.objects.all()
+        return queryset
     
     
     def post(self, request, format=None):
@@ -38,12 +38,13 @@ class BankDetail(RetrieveUpdateDestroyAPIView):
 
 class BranchView(generics.ListCreateAPIView):
     queryset = Bank_branch.objects.all()
-    serializer_class = BankSerializer
+    serializer_class = BranchSerializer
     
     
     def get_queryset(self):
-        
-        return self.queryset
+        queryset = Bank_branch.objects.all()
+        self.serializer_class = BranchSerializerReadonly
+        return queryset
     
     
     def post(self, request, format=None):
@@ -51,7 +52,9 @@ class BranchView(generics.ListCreateAPIView):
         serializer = BranchSerializer(data=request.data)
         if serializer.is_valid(raise_exception = True):
             serializer.save()
+            self.serializer_class = BranchSerializerReadonly
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        self.serializer_class = BranchSerializerReadonly
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -70,8 +73,9 @@ class BankAccountView(generics.ListCreateAPIView):
     
     
     def get_queryset(self):
-        
-        return self.queryset
+        self.serializer_class = BankAccountReadOnlySerializer
+        queryset = Bank_account.objects.all()
+        return queryset
     
     
     def post(self, request, format=None):
@@ -79,7 +83,9 @@ class BankAccountView(generics.ListCreateAPIView):
         serializer = BankAccountSerializer(data=request.data)
         if serializer.is_valid(raise_exception = True):
             serializer.save()
+            self.serializer_class = BankAccountReadOnlySerializer
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        self.serializer_class = BankAccountReadOnlySerializer
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
