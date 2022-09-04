@@ -1,6 +1,6 @@
 from  django.urls import path
 from  myapi.views.bank_views  import Banks, BankDetail,BranchView,BranchDetailView,BankAccountView,AccountDetailView, Categories, CategoryDetail
-from myapi.views.customer_views import CustomerDetail, CustomerView, MoneyTransferView, MoneytransferDetail, SettlementDetail, SettlementView
+from myapi.views.customer_views import CustomerDetail, CustomerView, MoneyTransferView, MoneytransferDetail, RoleDetail, RoleView, SettlementDetail, SettlementView
 from  myapi.views import auth_views 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -21,6 +21,9 @@ urlpatterns = [
 
     path('category/',Categories.as_view(),name = 'category'),
     path('category/<str:pk>/',CategoryDetail.as_view(), name = 'category_detail'),
+
+    path('role/',RoleView.as_view(), name = 'roles'),
+    path('role/<str:pk>/',RoleDetail.as_view(), name = 'role_detail'),
 
     path('bank_accounts/',BankAccountView.as_view(), name = 'accounts'),
     path('bank_accounts/<str:pk>/',AccountDetailView.as_view(), name = 'account_detail'),

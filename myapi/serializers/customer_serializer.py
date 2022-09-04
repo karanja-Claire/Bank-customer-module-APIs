@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from myapi.models.customer_models import  Customer, MoneyTransfer, Settlement
+from myapi.models.customer_models import  Customer, MoneyTransfer, Settlement, UserRole
 from myapi.serializers.auth_serializer import UserResponseSerializer
 from myapi.serializers.bank_serializer import BankAccountReadOnlySerializer
 
@@ -43,3 +43,9 @@ class SettlementReadonly(serializers.ModelSerializer):
     class Meta:
         model = Settlement
         fields = '__all__'
+# ------------------------------------------------------------------------------------------------------
+class RoleSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
+    class Meta:
+        model = UserRole
+        fields = ('id','name')

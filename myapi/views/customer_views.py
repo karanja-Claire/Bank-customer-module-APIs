@@ -1,12 +1,16 @@
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from myapi.models.customer_models import MoneyTransfer, Customer, Settlement
-from myapi.serializers.customer_serializer import  CustomerReadOnly, CustomerSerializer, MoneytransferReadonly, MoneytransferSerializer, SettlementReadonly, SettlementSerializer
+from myapi.models.customer_models import MoneyTransfer, Customer, Settlement, UserRole
+from myapi.serializers.customer_serializer import  CustomerReadOnly, CustomerSerializer,SettlementReadonly, SettlementSerializer
+from myapi.serializers.customer_serializer import MoneytransferReadonly, MoneytransferSerializer, RoleSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 
 class CustomerView(ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user', 'account_name']
     def get_queryset(self):
         queryset = Customer.objects.all()
         self.serializer_class = CustomerReadOnly
@@ -35,6 +39,8 @@ class CustomerDetail(RetrieveUpdateDestroyAPIView):
 class MoneyTransferView(ListCreateAPIView):
     queryset = MoneyTransfer.objects.all()
     serializer_class= MoneytransferSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['mode', 'account']
 
     def get_queryset(self):
         queryset = MoneyTransfer.objects.all()
@@ -68,7 +74,8 @@ class MoneytransferDetail(RetrieveUpdateDestroyAPIView):
 class SettlementView(ListCreateAPIView):
     queryset = Settlement.objects.all()
     serializer_class=SettlementSerializer
-    
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [ 'account']
     def get_queryset(self):
         queryset = Settlement.objects.all()
         self.serializer_class = SettlementReadonly
@@ -101,6 +108,30 @@ class SettlementView(ListCreateAPIView):
 class SettlementDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = SettlementSerializer
     queryset = Settlement.objects.all()
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        return self.queryset.filter()
+
+# ---------------------------------------------------------------------------------------------------
+class RoleView(ListCreateAPIView):
+    queryset = UserRole.objects.all()
+    serializer_class = RoleSerializer
+    def get_queryset(self):
+        queryset = UserRole.objects.all()
+        
+   
+        return queryset
+
+    def post(self,request):
+        serializer = RoleSerializer(data = request.data)
+        if serializer.is_valid(raise_exception= True):
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
+class RoleDetail(RetrieveUpdateDestroyAPIView):
+    serializer_class = RoleSerializer
+    queryset = UserRole.objects.all()
     lookup_field = 'pk'
 
     def get_queryset(self):
