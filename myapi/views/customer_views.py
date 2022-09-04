@@ -1,6 +1,6 @@
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from myapi.models.customer_models import MoneyTransfer, Customer
-from myapi.serializers.customer_serializer import  CustomerReadOnly, CustomerSerializer, MoneytransferReadonly, MoneytransferSerializer
+from myapi.models.customer_models import MoneyTransfer, Customer, Settlement
+from myapi.serializers.customer_serializer import  CustomerReadOnly, CustomerSerializer, MoneytransferReadonly, MoneytransferSerializer, SettlementReadonly, SettlementSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -59,6 +59,48 @@ class MoneyTransferView(ListCreateAPIView):
 class MoneytransferDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = MoneytransferSerializer
     queryset = MoneyTransfer.objects.all()
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        return self.queryset.filter()
+
+#-----------------------------------------------------------------------------------------------------------------
+class SettlementView(ListCreateAPIView):
+    queryset = Settlement.objects.all()
+    serializer_class=SettlementSerializer
+    
+    def get_queryset(self):
+        queryset = Settlement.objects.all()
+        self.serializer_class = SettlementReadonly
+     
+
+        return queryset
+      
+
+    def post(self, request, format=None):
+               
+        serializer = SettlementSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            settle=serializer.save()
+            qry = Customer.objects.filter(id=serializer.data.get('account')).first()
+            if serializer.data.get('amount') <= qry.balance:              
+                qry.money_withdrawn = qry.money_withdrawn + serializer.data.get(
+                    'amount')
+                qry.save()
+                
+            else:
+                return Response(
+                    "Cannot settle amount greater than your balance.",
+                    status=status.HTTP_400_BAD_REQUEST)
+            serializer = SettlementSerializer(settle)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SettlementDetail(RetrieveUpdateDestroyAPIView):
+    serializer_class = SettlementSerializer
+    queryset = Settlement.objects.all()
     lookup_field = 'pk'
 
     def get_queryset(self):
