@@ -111,3 +111,6 @@ class Settlement(models.Model):
     transaction_ref = models.CharField(null=True, max_length=256)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+
+# ----------------------------------------------------------------------------------------------------------
+
