@@ -1,5 +1,4 @@
 
-from sre_constants import BRANCH
 from rest_framework import serializers
 from myapi.models.bank_models import Bank, Bank_account, Bank_branch
 

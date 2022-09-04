@@ -7,7 +7,7 @@ class UserResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
         fields = [
-            'id', 'username', 'email', 'phone',
+            'id', 'username', 'email', 'phone','is_active','is_staff',
             'created_at', 'updated_at'
             
         ]
