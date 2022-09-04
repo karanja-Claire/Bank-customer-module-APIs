@@ -77,3 +77,37 @@ class MoneyTransfer(models.Model):
 
     def __str__(self):
         return self
+
+# --------------------------------------------------------------------------------------------
+class Settlement(models.Model):
+    VERIFIED = 'Verified'
+    PENDING = 'Pending'
+    REJECTED = 'Rejected'
+
+    STATUS_CHOICES = ((VERIFIED, VERIFIED), (PENDING, PENDING), (REJECTED,
+                                                                 REJECTED))
+
+    COMPLETED = 'Completed'
+    PENDING = 'Pending'
+    CANCELLED = 'Cancelled'
+    FAILED = 'Failed'
+    TRANSACTION_STATUS_CHOICES = (
+        (COMPLETED, COMPLETED),
+        (PENDING, PENDING),
+        (CANCELLED, CANCELLED),
+        (FAILED, FAILED),
+    )
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    account = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    amount = models.FloatField()
+    WithdrawalAccount=models.ForeignKey(Bank_account, on_delete=models.DO_NOTHING, null=True)
+    approved = models.CharField(choices=STATUS_CHOICES,
+                                max_length=256,
+                                default=PENDING)
+    status = models.CharField(choices=TRANSACTION_STATUS_CHOICES,
+                              max_length=256,
+                              null=True)
+    transaction_ref = models.CharField(null=True, max_length=256)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
