@@ -186,3 +186,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #temp key
 APIKEY=env.get_value('APIKEY')
+
+#stock key
+APPID =env.get_value('APPID')
