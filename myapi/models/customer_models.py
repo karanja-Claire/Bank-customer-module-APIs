@@ -118,3 +118,8 @@ class UserRole(models.Model):
     name = models.CharField(max_length=256)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+
+
+#----------------------------------------------------------------------------------------------------------
+class Temp(models.Model):
+    city_name = models.CharField(max_length=256)

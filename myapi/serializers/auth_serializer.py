@@ -16,6 +16,9 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=256, required=True)
     password = serializers.CharField(max_length=256, required=True)
 
+
+
+
 class LoginResponseSerializer(serializers.Serializer):
     
     class TokensSerializer(serializers.Serializer):
