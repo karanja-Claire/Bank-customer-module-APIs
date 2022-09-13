@@ -51,8 +51,8 @@ class LoginView(generics.CreateAPIView):
                 code=400
             )
       
-
-        user = auth.authenticate(email=user.email, password=data.get('password'))
+       
+        user = auth.authenticate(email=data.get('email'), password=data.get('password'))
      
    
         if not user:

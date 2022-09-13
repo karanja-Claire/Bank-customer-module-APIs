@@ -7,11 +7,13 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from myapi.views.temp_views import TempView
+
 urlpatterns = [
     
     path('api/token/', auth_views.LoginView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('register',auth_views.RegisterView.as_view(), name = 'register'),
+    path('api/register',auth_views.RegisterView.as_view(), name = 'register'),
 
     path('bank/',Banks.as_view(), name = 'banks'),
     path('bank/<str:pk>/',BankDetail.as_view(), name = 'bank_detail'),
@@ -35,5 +37,7 @@ urlpatterns = [
     path('money_transfer/<str:pk>/',MoneytransferDetail.as_view(), name = 'transfer_detail'),
     
     path('withdraw',SettlementView.as_view(),name ='settlement'),
-    path('withdraw/<str:pk>/',SettlementDetail.as_view(), name = 'settlement_detail')
+    path('withdraw/<str:pk>/',SettlementDetail.as_view(), name = 'settlement_detail'),
+
+    path('temp',TempView.as_view(), name = 'temp-api')
 ]
