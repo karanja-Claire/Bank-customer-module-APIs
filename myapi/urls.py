@@ -34,6 +34,6 @@ urlpatterns = [
     path('money_transfer/',MoneyTransferView.as_view(), name ='money_transfer'),
     path('money_transfer/<str:pk>/',MoneytransferDetail.as_view(), name = 'transfer_detail'),
     
-    path('settlement',SettlementView.as_view(),name ='settlement'),
-    path('settlement/<str:pk>/',SettlementDetail.as_view(), name = 'settlement_detail')
+    path('withdraw',SettlementView.as_view(),name ='settlement'),
+    path('withdraw/<str:pk>/',SettlementDetail.as_view(), name = 'settlement_detail')
 ]

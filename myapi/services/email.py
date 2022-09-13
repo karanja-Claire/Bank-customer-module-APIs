@@ -15,7 +15,7 @@ class EmailThreading(threading.Thread):
 class Email:
 
     @staticmethod
-    def send(email_subject: str, email_body: str, send_to: str) -> None:
+    def send(email_subject, email_body, send_to):
         email = EmailMessage(
             email_subject,
             email_body,

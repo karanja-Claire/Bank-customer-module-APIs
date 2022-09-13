@@ -3,7 +3,7 @@ from myapi.models.customer_models import MoneyTransfer, Customer, Settlement, Us
 from myapi.serializers.customer_serializer import  CustomerReadOnly, CustomerSerializer,SettlementReadonly, SettlementSerializer
 from myapi.serializers.customer_serializer import MoneytransferReadonly, MoneytransferSerializer, RoleSerializer
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,generics
 from django_filters.rest_framework import DjangoFilterBackend
 
 class CustomerView(ListCreateAPIView):
@@ -62,13 +62,34 @@ class MoneyTransferView(ListCreateAPIView):
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 
-class MoneytransferDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = MoneytransferSerializer
+class MoneytransferDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MoneyTransfer.objects.all()
-    lookup_field = 'pk'
+    serializer_class = MoneytransferSerializer
+    
+    
 
-    def get_queryset(self):
-        return self.queryset.filter()
+    def get_object(self, pk):
+        self.serializer_class = MoneytransferSerializer
+      
+        transfer = MoneyTransfer.objects.get(pk=pk)
+           
+        return transfer
+       
+    def get(self, request, pk, format=None):
+
+        transfer = self.get_object(pk)
+        serializer = MoneytransferSerializer(transfer)
+
+        return Response(serializer.data)
+
+    def patch(self, request, pk, format=None):
+
+        transfer = self.get_object(pk)
+        serializer = MoneytransferSerializer(transfer, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #-----------------------------------------------------------------------------------------------------------------
 class SettlementView(ListCreateAPIView):

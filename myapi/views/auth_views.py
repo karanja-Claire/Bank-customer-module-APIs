@@ -7,6 +7,8 @@ from django.contrib import auth
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class RegisterView(generics.CreateAPIView):
+
+    
     serializer_class = RegisterUserSerializer
 
     def post(self, request, *args, **kwargs):
@@ -48,9 +50,11 @@ class LoginView(generics.CreateAPIView):
                 detail={'email': ['email does not exist']},
                 code=400
             )
-       
+      
+
         user = auth.authenticate(email=user.email, password=data.get('password'))
-        
+     
+   
         if not user:
             raise serializers.ValidationError(
                 detail={'password': ['Invalid password']},
