@@ -1,4 +1,5 @@
 
+from bank.settings import APIKEY
 from myapi.models.customer_models import Temp
 from myapi.serializers.temp_serializers import TempResSerializer, TempSerializer
 from rest_framework import status
@@ -15,7 +16,8 @@ class TempView(generics.CreateAPIView):
             
             data = serializer.data
             data1=data.get('city_name')
-            res=requests.get('https://api.openweathermap.org/data/2.5/weather?q='+data1+'&appid=17a819bd1d98f912b7ba38e390e83659')
+            api_key=APIKEY
+            res=requests.get('https://api.openweathermap.org/data/2.5/weather?q='+data1+'&appid='+api_key+'')
             
             json_object=res.json()
             temp = json_object['main']['temp']

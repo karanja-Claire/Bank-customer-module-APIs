@@ -6,6 +6,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from myapi.views.stocks import StockView
 
 from myapi.views.temp_views import TempView
 
@@ -39,5 +40,6 @@ urlpatterns = [
     path('withdraw',SettlementView.as_view(),name ='settlement'),
     path('withdraw/<str:pk>/',SettlementDetail.as_view(), name = 'settlement_detail'),
 
-    path('temp',TempView.as_view(), name = 'temp-api')
+    path('temp',TempView.as_view(), name = 'temp-api'),
+    path('currency',StockView.as_view(), name = 'currency-api')
 ]
