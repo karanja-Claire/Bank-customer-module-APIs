@@ -7,4 +7,4 @@ class MpesaService:
         headers = {"Authorization": "Basic Key"}
         
         response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
-        print(response.text)
+     
